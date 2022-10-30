@@ -1,9 +1,11 @@
 import { Component } from 'react';
-import { Title, Contacts, Container } from './Container/Container.styled';
-import { PhoneBookForm } from './PhoneBookForm/PhoneBookForm';
 import { nanoid } from 'nanoid';
+
+import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './PhoneBookList/PhoneBookList';
 import { Filter } from './Filter/Filter';
+
+import { Title, Container } from './Container/Container.styled';
 
 class App extends Component {
   state = {
@@ -69,8 +71,8 @@ class App extends Component {
     return (
       <Container>
         <Title>Phonebook</Title>
-        <PhoneBookForm ContactAdd={this.ContactAdd} />
-        <Contacts>Contacts</Contacts>
+        <ContactForm ContactAdd={this.ContactAdd} />
+        <Title>Contacts</Title>
         <Filter filter={this.state.filter} handleFilter={this.handleFilter} />
         <ContactList
           filteredContacts={this.getFilteredContacts()}
