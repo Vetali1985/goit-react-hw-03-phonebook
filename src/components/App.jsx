@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './PhoneBookList/PhoneBookList';
 import { Filter } from './Filter/Filter';
+import { getContacts, setContacts } from '../utils/localStorage';
 
 import { Title, Container } from './Container/Container.styled';
 
@@ -17,18 +18,24 @@ class App extends Component {
     ],
     filter: '',
   };
+  componentDidMount() {
+    const contacts = getContacts();
+
+    if (contacts === null) {
+      setContacts(this.state.contacts);
+    }
+
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contact', JSON.stringify(this.state.contacts));
+      setContacts(this.state.contacts);
     }
   }
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const contactParsed = JSON.parse(contacts);
-    if (contactParsed) {
-      this.setState({ contacts: contactParsed });
-    }
-  }
+
   ContactAdd = (name, number) => {
     const contact = {
       id: nanoid(5),
